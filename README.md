@@ -2,6 +2,14 @@
 
 Python library - logging-related
 
+### Installation
+
+Available on PyPI: [libmonty-logging](https://pypi.org/project/libmonty-logging/)
+
+```commandline
+pip install libmonty-logging
+```
+
 ## License
 
 [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/)
