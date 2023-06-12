@@ -20,7 +20,7 @@ def program_header(program_name: str,
     header = f'{program_name}'
     
     if program_version is not None:
-        header += f'{program_version}'
+        header += f' {program_version}'
 
     logging.info(header)
     logging.info('-' * len(header))
