@@ -6,58 +6,20 @@
 
 # imports: library
 import json
+from types import ModuleType
 
-# imports: dependencies
+# imports: testing
+import basic_1
+import basic_2
+
+# imports: project
 import libmonty_logging
 import libmonty_logging.configs
 import libmonty_logging.paths
 import libmonty_logging.version
 
-
 MOCK_PROGRAM_NAME = libmonty_logging.version.PROGRAM_NAME + '-test'
 MOCK_PROGRAM_VERSION = libmonty_logging.version.__version__
-
-
-def reference_config(log_file_path: str) -> str:
-    """Reference configuration for comparison"""
-
-    return '''{
-  "version": 1,
-  "formatters": {
-    "formatter1": {
-      "format": "[%(asctime)s] [%(levelname)-8s] %(message)s",
-      "datefmt": "%H:%M:%S"
-    },
-    "formatter2": {
-      "format": "[%(asctime)s] [%(levelname)-8s] %(message)s"
-    }
-  },
-  "handlers": {
-    "handler1": {
-      "class": "logging.StreamHandler",
-      "level": "INFO",
-      "formatter": "formatter1",
-      "stream": "ext://sys.stdout"
-    },
-    "handler2": {
-      "class": "logging.FileHandler",
-      "level": "INFO",
-      "formatter": "formatter2",
-      "filename": "''' + log_file_path + '''",
-      "mode": "w",
-      "encoding": "UTF-8"
-    }
-  },
-  "loggers": {
-    "root": {
-      "level": "NOTSET",
-      "handlers": [
-        "handler1",
-        "handler2"
-      ]
-    }
-  }
-}'''
 
 
 def line_display_format(line: str) -> str:
@@ -72,27 +34,31 @@ def line_display_format(line: str) -> str:
     )
 
 
-def main() -> None:
-    """Main"""
+def test(module: ModuleType) -> None:
+    """Test"""
 
-    log_file_path = libmonty_logging.paths.get(libmonty_logging.paths.LogDirPath.XDG_STATE_HOME_WITH_NAME_V1,
-                                               libmonty_logging.paths.LogFilename.NAME_DASH_VERSION_V1,
-                                               program_name=MOCK_PROGRAM_NAME,
-                                               program_version=MOCK_PROGRAM_VERSION)
-    config = libmonty_logging.configs.get(libmonty_logging.configs.Config.STDOUT_AND_FILE_V1,
-                                          log_file_path=log_file_path)
+    reference, config = module.create_config(
+        program_name=MOCK_PROGRAM_NAME,
+        program_version=MOCK_PROGRAM_VERSION
+    )
 
     libmonty_logging.apply_config(config)
 
-    reference: str = reference_config(log_file_path)
     generated: str = json.dumps(config, indent=2)
-    is_equal: bool = generated == reference
 
-    if is_equal:
-        print('Generated and reference versions are equal')
-    else:
+    if not generated == reference:
         print()
-        print(f'{"  DIFFERENCE  ":=^80}')
+        print(f'{"  REFERENCE  ":-^80}')
+        print()
+        print(reference)
+
+        print()
+        print(f'{"  GENERATED  ":-^80}')
+        print()
+        print(generated)
+
+        print()
+        print(f'{"  DIFFERENCE  ":-^80}')
 
         reference_lines: list[str] = reference.split('\n')
         generated_lines: list[str] = generated.split('\n')
@@ -105,10 +71,28 @@ def main() -> None:
                 print('REF:', line_display_format(line_ref))
                 print('GEN:', line_display_format(line_gen))
 
-        print()
-        print(f'{"  RESULT  ":=^80}')
-        print()
+    print()
+    print(f'{"  RESULT  ":-^80}')
+    print()
+    if generated == reference:
+        print('Generated and reference versions are equal')
+    else:
         print('PROBLEM: Generated and reference versions are NOT equal')
+
+
+def main() -> None:
+    """Main"""
+
+    print()
+    print(f'{"  V1  ":=^80}')
+    test(basic_1)
+
+    print()
+    print(f'{"  v2  ":=^80}')
+    test(basic_2)
+
+    print()
+    print(f'{"":=^80}')
 
 
 if __name__ == '__main__':

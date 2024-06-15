@@ -12,7 +12,6 @@ import libmonty_logging
 import libmonty_logging.version
 import libmonty_logging.message as logging_message
 
-
 MOCK_PROGRAM_NAME = libmonty_logging.version.PROGRAM_NAME + '-test'
 MOCK_PROGRAM_VERSION = libmonty_logging.version.__version__
 
@@ -20,7 +19,7 @@ MOCK_PROGRAM_VERSION = libmonty_logging.version.__version__
 def main() -> None:
     """Main"""
 
-    libmonty_logging.apply_default(MOCK_PROGRAM_NAME, MOCK_PROGRAM_VERSION)
+    libmonty_logging.apply_default_console_and_file(MOCK_PROGRAM_NAME, MOCK_PROGRAM_VERSION)
 
     logging_message.program_header(MOCK_PROGRAM_NAME)
 

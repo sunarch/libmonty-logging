@@ -18,7 +18,14 @@ def apply_config(config: dict) -> None:
     logging.config.dictConfig(config)
 
 
-def apply_default(program_name: str, program_version: str) -> None:
+def apply_default_console_only() -> None:
+    """Apply config to logging module"""
+
+    config: dict = configs.get(configs.Config.STDOUT_V1)
+    apply_config(config)
+
+
+def apply_default_console_and_file(program_name: str, program_version: str) -> None:
     """Apply config to logging module"""
 
     log_file_path: str = paths.get(
