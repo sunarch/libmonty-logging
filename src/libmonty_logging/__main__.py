@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""Main"""
+
 # imports: library
 from argparse import ArgumentParser
 
@@ -10,6 +12,7 @@ from libmonty_logging import version
 
 
 def main() -> None:
+    """Main"""
 
     parser = ArgumentParser(prog=version.PROGRAM_NAME)
 
@@ -27,5 +30,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
-# -------------------------------------------------------------------- #

@@ -2,11 +2,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""File and stream config: version 1"""
+
 # imports: project
 from libmonty_logging import helper
 
 
 def config(program_name: str, program_version: str) -> dict:
+    """Construct configuration"""
+
     log_file_path: str = helper.log_file_path(program_name, program_version)
 
     return {
