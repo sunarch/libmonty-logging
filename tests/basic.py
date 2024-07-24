@@ -11,6 +11,7 @@ from types import ModuleType
 # imports: testing
 import basic_1
 import basic_2
+import basic_3
 
 # imports: project
 import libmonty_logging
@@ -83,13 +84,23 @@ def test(module: ModuleType) -> None:
 def main() -> None:
     """Main"""
 
+    total_tests: int = 3
+
+    def header_text(current_test: int) -> str:
+        """Header text for display"""
+        return '  ' + f'{current_test}/{total_tests}' + '  '
+
     print()
-    print(f'{"  V1  ":=^80}')
+    print(f'{header_text(1):=^80}')
     test(basic_1)
 
     print()
-    print(f'{"  v2  ":=^80}')
+    print(f'{header_text(2):=^80}')
     test(basic_2)
+
+    print()
+    print(f'{header_text(3):=^80}')
+    test(basic_3)
 
     print()
     print(f'{"":=^80}')

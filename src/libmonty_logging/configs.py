@@ -16,6 +16,7 @@ class Config(Enum):
     """Enum of handlers"""
     STDOUT_AND_FILE_V1 = 1
     STDOUT_V1 = 2
+    FILE_V1 = 3
 
 
 def _template() -> dict:
@@ -53,7 +54,7 @@ def get(identifier: Config, log_file_path: str = None) -> dict:
         )
         chosen_handlers[handler_name] = handler_config
 
-    if identifier in {Config.STDOUT_AND_FILE_V1}:
+    if identifier in {Config.STDOUT_AND_FILE_V1, Config.FILE_V1}:
         if log_file_path is None:
             raise ValueError('Log file path required but not provided')
 

@@ -19,14 +19,27 @@ def apply_config(config: dict) -> None:
 
 
 def apply_default_console_only() -> None:
-    """Apply config to logging module"""
+    """Apply config to logging module - console only"""
 
     config: dict = configs.get(configs.Config.STDOUT_V1)
     apply_config(config)
 
 
+def apply_default_file_only(program_name: str, program_version: str) -> None:
+    """Apply config to logging module - file only"""
+
+    log_file_path: str = paths.get(
+        paths.LogDirPath.XDG_STATE_HOME_WITH_NAME_V1,
+        paths.LogFilename.NAME_DASH_VERSION_V1,
+        program_name=program_name,
+        program_version=program_version
+    )
+    config = configs.get(configs.Config.FILE_V1, log_file_path=log_file_path)
+    apply_config(config)
+
+
 def apply_default_console_and_file(program_name: str, program_version: str) -> None:
-    """Apply config to logging module"""
+    """Apply config to logging module - console and file"""
 
     log_file_path: str = paths.get(
         paths.LogDirPath.XDG_STATE_HOME_WITH_NAME_V1,
